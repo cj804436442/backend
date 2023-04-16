@@ -5,6 +5,13 @@ import cj.myapp.backend.mapper.UserMapper;
 import cj.myapp.backend.util.Response;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.util.Map;
+
+/**
+ * @Author {高哲浩}
+ * @Date: 2022/06/15/ 16:08
+ * @Description
+ */
 
 @RestController
 //@RequestMapping("/api")
@@ -20,9 +27,11 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public Response loginUser(@RequestBody User user) {
-        String uname = user.getUname();
-        String pwd = user.getPwd();
+    public Response loginUser(@RequestParam Map<String,String> user) {
+//        String uname = user.getUname();
+//        String pwd = user.getPwd();
+        String uname = user.get("uname");
+        String pwd = user.get("pwd");
         System.out.println("uname=" + uname + "pwd" + pwd);
         if (uname.equals("") || pwd.equals("")) {
             return new Response(100, "用户名或密码不能为空", "");
