@@ -61,7 +61,10 @@ public class UserController {
     public Map<String,Object> findPage(@RequestBody Employ employ) {
         Integer pageSize = employ.getPageSize();
         Integer pageNum = (employ.getPageNum() - 1)*pageSize;
-        List<Employ> data = userMapper.selectPage(pageNum,pageSize);
+        Integer id = employ.getId();
+        String name = employ.getName();
+        String sex = employ.getSex();
+        List<Employ> data = userMapper.selectPage(id,name,sex,pageNum,pageSize);
         Integer total = userMapper.selectTotal();
         Map<String,Object> res = new HashMap<>();
         res.put("data",data);

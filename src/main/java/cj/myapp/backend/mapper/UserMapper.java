@@ -23,8 +23,22 @@ public interface UserMapper {
     @Transactional
     User registerByName(String name);
 
-    @Select("select * from t_employ limit #{pageNum},#{pageSize}")
-    List<Employ> selectPage(Integer pageNum, Integer pageSize);
+//    @Select("select * from t_employ where COALESCE(name,'') = '' limit #{pageNum},#{pageSize}")
+
+    @Select("<script>" +
+            "SELECT * FROM t_employ WHERE 1 = 1" +
+            "<if test=\"name!=null\">" +
+            "AND name like concat('%',#{name},'%')" +
+            "</if>" +
+            "<if test=\"id!=null\">" +
+            "AND id = #{id}"+
+            "</if>" +
+            "<if test=\"sex!=null\">" +
+            "AND sex = #{sex}"+
+            "</if>" +
+            "limit #{pageNum},#{pageSize}" +
+            "</script>")
+    List<Employ> selectPage(Integer id, String name, String sex, Integer pageNum, Integer pageSize);
 
     @Select("SELECT COUNT(*) FROM t_employ")
     Integer selectTotal();
